@@ -39,18 +39,13 @@ Node* buildTree(vector<int>& arr) {
     return root;
 }
 
-int sumLeft(Node* root, bool isLeft) {
-    if (root == NULL) return 0;
-    if (root->left == NULL && root->right == NULL && isLeft) return root->val;
-    return sumLeft(root->left, true) + sumLeft(root->right, false);
-}
-
-int sumOfLeftLeaves(Node* root) {
-    return sumLeft(root, false);
+int maxDepth(Node* root) {
+    if (!root) return 0;
+    return 1 + max(maxDepth(root->left), maxDepth(root->right));
 }
 
 int main() {
     vector<int> arr = {3, 9, 20, INT_MIN, INT_MIN, 15, 7};
     Node* root = buildTree(arr);
-    cout << sumOfLeftLeaves(root);
+    cout << maxDepth(root);
 }

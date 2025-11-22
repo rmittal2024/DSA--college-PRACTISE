@@ -39,18 +39,27 @@ Node* buildTree(vector<int>& arr) {
     return root;
 }
 
-int sumLeft(Node* root, bool isLeft) {
-    if (root == NULL) return 0;
-    if (root->left == NULL && root->right == NULL && isLeft) return root->val;
-    return sumLeft(root->left, true) + sumLeft(root->right, false);
-}
-
-int sumOfLeftLeaves(Node* root) {
-    return sumLeft(root, false);
+vector<int> rightView(Node* root) {
+    vector<int> ans;
+    if (!root) return ans;
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        int n = q.size();
+        for (int i = 1; i <= n; i++) {
+            Node* cur = q.front();
+            q.pop();
+            if (i == n) ans.push_back(cur->val);
+            if (cur->left) q.push(cur->left);
+            if (cur->right) q.push(cur->right);
+        }
+    }
+    return ans;
 }
 
 int main() {
-    vector<int> arr = {3, 9, 20, INT_MIN, INT_MIN, 15, 7};
+    vector<int> arr = {1, 2, 3, INT_MIN, 5, INT_MIN, 4};
     Node* root = buildTree(arr);
-    cout << sumOfLeftLeaves(root);
+    vector<int> res = rightView(root);
+    for (int x : res) cout << x << " ";
 }
